@@ -1,0 +1,133 @@
+<div class="todobody">
+  <mat-toolbar color="primary" style="background-color: #e3dfc8; color: black;">
+    <img
+      src="../../../assets/logo.png"
+      style="max-width: 50px; height: auto;"
+    />
+    Todo App
+  </mat-toolbar>
+  &nbsp;
+  <div class="todoapp">
+    <mat-card>
+      <mat-form-field class="example-full-width">
+        <mat-label>Todo</mat-label>
+        <input
+          matInput
+          type="text"
+          #todo
+          placeholder="What needs to be done"
+          (keyup.enter)="addTodo(todo.value); todo.value = ''"
+        />
+      </mat-form-field>
+      <button
+        mat-mini-fab
+        color="primary"
+        style="background-color: #96bb7c;"
+        (click)="addTodo(todo.value); todo.value = ''"
+      >
+        <b>+</b>
+      </button>
+    </mat-card>
+
+    <!-- ........................... -->
+    <!-- <h2>My TODO List</h2>
+<input
+  type="text"
+  #todo
+  placeholder="What needs to be done"
+  (keyup.enter)="addTodo(todo.value); todo.value = ''"
+/> -->
+
+    <!-- <button
+  mat-raised-button
+  color="primary"
+  (click)="addTodo(todo.value); todo.value = ''"
+>
+  ADD
+</button> -->
+    &nbsp;
+    <mat-card>
+      <div class="listtodo">
+        <div
+          *ngFor="let todo of todos; let i = index"
+          [class.selected]="todo === selectedTodo"
+          #listtodo
+        >
+          <div class="todos" style="display: inline;">
+            <input
+              type="checkbox"
+              class="checkbox"
+              [(ngModel)]="todo.isDone"
+              *ngIf="todo.isDone == false"
+            />
+            <div *ngIf="todo.editing; then thenBlock; else elseBlock"></div>
+            <ng-template #thenBlock>
+              <input
+                type="text"
+                class="todo-item-edit"
+                [(ngModel)]="todo.text"
+                (blur)="doneEdit(todo)"
+                (keyup.enter)="doneEdit(todo)"
+              />
+            </ng-template>
+
+            <ng-template #elseBlock>
+              <div
+                *ngIf="todo.isDone == false"
+                (dblclick)="onSelect(todo)"
+                class="todo-item-label"
+                [ngClass]="{ completed: todo.isDone }"
+                (dblclick)="editTodo(todo)"
+                style="display: inline;"
+              >
+                <label for="{{ todo.id }}" class="todobox">
+                  <span [ngClass]="{ checked: todo.isDone }">
+                    &nbsp; {{ todo.text }}
+                  </span>
+                </label>
+              </div>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+    </mat-card>
+
+    &nbsp;
+    <mat-card>
+      <h2>Todo Complete</h2>
+      <div class="donetodo" *ngFor="let todo of todos; let i = index">
+        <div *ngIf="todo.isDone == true">
+          <!-- <input
+      type="checkbox"
+      class="checkbox"
+      [(ngModel)]="todo.isDone"
+      *ngIf="todo.isDone == true"
+    /> -->
+          <mat-checkbox
+            class="checkbox"
+            color="primary"
+            style="background-color: yellowgreen; color: yellowgreen;"
+            [(ngModel)]="todo.isDone"
+            *ngIf="todo.isDone == true"
+          ></mat-checkbox>
+
+          <label for="{{ todo.id }}" class="todobox">
+            <span [ngClass]="{ checked: todo.isDone }">
+              &nbsp; {{ todo.text }}
+            </span>
+          </label>
+          &nbsp;
+          <button
+            mat-icon-button
+            style="color: #e8505b;"
+            aria-label="Example icon button with a delete icon"
+            (click)="deleteTodo(todo)"
+            class="del"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+</div>
